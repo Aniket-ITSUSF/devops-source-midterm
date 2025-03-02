@@ -1,5 +1,5 @@
 FROM node:23-alpine3.20
-WORKDIR /crud-react-node-mySQL-go-new/backend
+WORKDIR /app
 COPY package*.json ./
 RUN npm install
 RUN npm install -g nodemon
