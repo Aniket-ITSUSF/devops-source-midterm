@@ -1,4 +1,4 @@
-import express  from "express";
+import express from "express";
 import mysql from "mysql"
 import cors from "cors"
 
@@ -20,81 +20,87 @@ db.connect((err) => {
     }
 });
 
-app.use(express.json())//return json data using the api server postman
+app.use(express.json()) // Return JSON data using the API server postman
 
+// Updated CORS settings to allow both www and non-www domains
 const corsOptions = {
-    origin: ["https://www.dev-ops-project.com/"],
+    origin: ["https://www.dev-ops-project.com", "https://dev-ops-project.com"],
+    credentials: true
 };
 app.use(cors(corsOptions));
 
-app.get("/", (req,res)=>{
+// This middleware will help match the URLs from nginx
+// It will handle API requests coming through the /api/ path
+app.use((req, res, next) => {
+    // Check if the URL path starts with /api
+    if (req.url.startsWith('/api')) {
+        // Strip '/api' from the URL path for internal routing
+        req.url = req.url.replace(/^\/api/, '');
+    }
+    next();
+});
+
+app.get("/", (req, res) => {
     res.json("Hello World from the backend!!!")
 })
 
-//postman -> get method  http://localhost:8800/books
-app.get("/books", (req,res)=>{
+app.get("/books", (req, res) => {
     const query = "SELECT * FROM books"
-    db.query(query, (err,data)=>{
-          if(err) return res.json(err)
-          return res.json(data)
+    db.query(query, (err, data) => {
+        if (err) return res.json(err)
+        return res.json(data)
     })
-  })
+})
 
-
-  //postman ---> post method
-  //json body bellow
-  //----------------------------- http://localhost:8800/books
-  //{
-// "title": "title from client",
-// "description": "description from client",
-// "cover": "cover from client"
-// }
-
-  app.post("/books", (req,res)=>{
+app.post("/books", (req, res) => {
     const query = "INSERT INTO books (`title`, `description`, `price`, `cover`) VALUES (?)"
     const values = [
-       req.body.title,
-       req.body.description,
-       req.body.price,
-       req.body.cover
+        req.body.title,
+        req.body.description,
+        req.body.price,
+        req.body.cover
     ]
 
-    db.query(query, [values], (err,data)=>{
-        if(err) return res.json(err)
+    db.query(query, [values], (err, data) => {
+        if (err) return res.json(err)
         return res.json("Book has been created successfully!!!")
     })
-  })
+})
 
-  app.delete("/books/:id", (req,res)=>{
-      const bookID = req.params.id
-      const query = "DELETE FROM books WHERE id = ?"
+app.delete("/books/:id", (req, res) => {
+    const bookID = req.params.id
+    const query = "DELETE FROM books WHERE id = ?"
 
-      db.query(query, [bookID], (err, data)=>{
-        if(err) return res.json(err)
+    db.query(query, [bookID], (err, data) => {
+        if (err) return res.json(err)
         return res.json("Book has been deleted successfully!!!")
-      } )
-  })
+    })
+})
 
-  app.put("/books/:id", (req,res)=>{
+app.put("/books/:id", (req, res) => {
     const bookID = req.params.id
     const query = "UPDATE books SET `title`= ?, `description`= ?, `price`= ?, `cover`= ? WHERE id = ?";
 
     const values = [
-      req.body.title,
-      req.body.description,
-      req.body.price,
-      req.body.cover
+        req.body.title,
+        req.body.description,
+        req.body.price,
+        req.body.cover
     ]
 
-    db.query(query, [...values, bookID], (err, data)=>{
-      if(err) return res.json(err)
-      return res.json("Book has been updated successfully!!!")
-    } )
+    db.query(query, [...values, bookID], (err, data) => {
+        if (err) return res.json(err)
+        return res.json("Book has been updated successfully!!!")
+    })
 })
 
+// Add logging middleware to help debug API requests
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+    next();
+});
 
-app.listen(8800, ()=>{
-    console.log("Connect to the backend!!!!")
+app.listen(8800, () => {
+    console.log("Connected to the backend on port 8800!")
+    console.log("API is ready to receive requests")
 })
-
-//npm start
