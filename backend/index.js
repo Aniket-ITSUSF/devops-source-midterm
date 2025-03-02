@@ -12,6 +12,14 @@ const db = mysql.createConnection({
     database: process.env.DATABASE_NAME || "db"
 })
 
+db.connect((err) => {
+    if (err) {
+        console.error("Database connection failed:", err);
+    } else {
+        console.log("Connected to the database!");
+    }
+});
+
 app.use(express.json())//return json data using the api server postman
 
 app.use(cors())
