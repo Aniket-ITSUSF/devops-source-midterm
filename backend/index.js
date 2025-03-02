@@ -22,7 +22,10 @@ db.connect((err) => {
 
 app.use(express.json())//return json data using the api server postman
 
-app.use(cors())
+const corsOptions = {
+    origin: ["https://www.dev-ops-project.com/"],
+};
+app.use(cors(corsOptions));
 
 app.get("/", (req,res)=>{
     res.json("Hello World from the backend!!!")
