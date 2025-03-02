@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 //rafce
 const Add = () => {
-    const API_BASE_URL = import.meta.env.VITE_BOOK_APP_API_BASE_URL || "http://localhost:8800";
+    const API_BASE_URL = import.meta.env.API_BASE_URL || "http://localhost:8800";
     
     const [book, setBook] = useState({
         title: "",
