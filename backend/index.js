@@ -22,23 +22,7 @@ db.connect((err) => {
 
 app.use(express.json()) // Return JSON data using the API server postman
 
-// Updated CORS settings to allow both www and non-www domains
-const corsOptions = {
-    origin: ["https://www.dev-ops-project.com", "https://dev-ops-project.com"],
-    credentials: true
-};
-app.use(cors(corsOptions));
-
-// This middleware will help match the URLs from nginx
-// It will handle API requests coming through the /api/ path
-app.use((req, res, next) => {
-    // Check if the URL path starts with /api
-    if (req.url.startsWith('/api')) {
-        // Strip '/api' from the URL path for internal routing
-        req.url = req.url.replace(/^\/api/, '');
-    }
-    next();
-});
+app.use(cors());
 
 app.get("/", (req, res) => {
     res.json("Hello World from the backend!!!")
