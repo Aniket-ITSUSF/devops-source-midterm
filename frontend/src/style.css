@@ -1,82 +1,312 @@
 .App {
-    height: 100vh;
-    padding: 0px 100px;
+    min-height: 100vh;
+    padding: 2rem;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-
+    justify-content: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #ffffff;
 }
 
+.page-title {
+    font-size: 5rem;
+    color: #333;
+    margin-bottom: 2rem;
+    font-weight: 800;
+    position: relative;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+}
+
+.page-title::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background-color: #a5d8ff;
+}
+
+/* Books grid */
 .books {
-    display: flex;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    margin: 2rem 0;
 }
 
 .book {
-    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    align-items: center;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    border: 1px solid #f0f0f0;
 }
 
-img {
-    width: 200px;
-    height: 300px;
+.book:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.08);
+}
+
+.book-cover {
+    width: 100%;
+    height: 320px;
     object-fit: cover;
-    background-color: aquamarine;
+    border-bottom: 1px solid #f0f0f0;
+    background-color: #f8f9fa;
 }
 
-.delete {
-   padding: 3px 6px;
-   background-color: white;
-   cursor: pointer;
-   color: red;
-}
-
-.update {
-    padding: 3px 6px;
-    background-color: white;
-    cursor: pointer;
-    color: rgb(106,101,165)
- }
-
- .form {
+.book-details {
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
+}
+
+.book-title {
+    font-size: 1.35rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+}
+
+.book-description {
+    color: #555;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.book-price {
+    color: #94c2f3;
+    font-weight: 800;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    letter-spacing: -0.5px;
+}
+
+.book-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.delete-btn {
+    padding: 0.5rem 1rem;
+    background-color: #fff;
+    border: 2px solid #ffc9c9;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #ff8787;
+    font-weight: 700;
+    transition: all 0.2s ease;
+    flex: 1;
+    letter-spacing: 0.5px;
+}
+
+.delete-btn:hover {
+    background-color: #ffc9c9;
+    color: #c92a2a;
+}
+
+.update-btn {
+    padding: 0.5rem 1rem;
+    background-color: #fff;
+    border: 2px solid #b2f2bb;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    flex: 1;
+    transition: all 0.2s ease;
+    letter-spacing: 0.5px;
+}
+
+.update-btn a {
+    color: #40c057;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+}
+
+.update-btn:hover {
+    background-color: #b2f2bb;
+}
+
+.update-btn:hover a {
+    color: #2b7d39;
+}
+
+/* Form styling */
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    border: 1px solid #f0f0f0;
+}
+
+.form h1 {
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 2.2rem;
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+}
+
+.form-field {
+    margin-bottom: 1.2rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 700;
+    text-align: left;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+
+.form input {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    color: #333;
+    background-color: #fff;
+    font-weight: 500;
+}
+
+.form input:focus {
+    border-color: #a5d8ff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(165, 216, 255, 0.3);
+}
+
+.form input::placeholder {
+    color: #adb5bd;
+    font-weight: 500;
+}
+
+.btn {
+    padding: 0.8rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+    margin-top: 0.5rem;
+    letter-spacing: 0.5px;
+}
+
+.add-btn {
+    background-color: #a5d8ff;
+    color: #1864ab;
+}
+
+.add-btn:hover {
+    background-color: #74c0fc;
+}
+
+.update-form-btn {
+    background-color: #ffd8a8;
+    color: #e67700;
+}
+
+.update-form-btn:hover {
+    background-color: #ffc078;
+}
+
+.add-book-btn {
+    background-color: #b2f2bb;
+    color: #2b7d39;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+    margin: 2rem auto;
+    display: inline-flex;
     align-items: center;
-    gap: 20px;
+    gap: 0.5rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
 
- }
+.add-book-btn:hover {
+    background-color: #8ce99a;
+    transform: translateY(-2px);
+}
 
- input {
-    width: 250px;
-    padding: 10px;
-    border: 1px solid gray;
- }
+.add-book-btn a {
+    color: #2b7d39;
+    text-decoration: none;
+}
 
- .updateButton {
-    width: 270px;
-    padding: 10px;
-    border: 1px solid gray;
+.empty-state {
+    padding: 2rem;
     text-align: center;
-    background-color: lightcoral;
-    color: white;
-    font-weight: bold;
- }
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin: 2rem 0;
+    border: 1px dashed #ced4da;
+}
 
- .addButton {
-    width: 270px;
-    padding: 10px;
-    border: 1px solid gray;
-    text-align: center;
-    background-color: lightskyblue;
-    color: white;
-    font-weight: bold;
- }
+.empty-state p {
+    color: #6c757d;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
 
- .addBookButton {
-   margin: 20px auto;
-   color: lightslategray;
- }
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .books {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .form {
+        padding: 1.5rem;
+    }
+
+    .page-title {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .books {
+        grid-template-columns: 1fr;
+    }
+
+    .App {
+        padding: 1rem;
+    }
+}

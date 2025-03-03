@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-//rafce
+
 const Update = () => {
     const API_BASE_URL = import.meta.env.VITE_BOOK_APP_API_BASE_URL || "http://localhost:8800";
 
@@ -11,43 +11,117 @@ const Update = () => {
         price: null,
         cover: ""
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate()
-
     const location = useLocation()
-
     const bookID = location.pathname.split("/")[2]
 
-    console.log(location.pathname.split("/")[2])
+    // Fetch the current book data
+    useEffect(() => {
+        const fetchBook = async () => {
+            try {
+                const res = await axios.get(`${API_BASE_URL}/books/${bookID}`);
+                setBook({
+                    title: res.data.title || "",
+                    description: res.data.description || "",
+                    price: res.data.price || "",
+                    cover: res.data.cover || ""
+                });
+                setLoading(false);
+            } catch (err) {
+                console.log(err);
+                setLoading(false);
+            }
+        };
+        fetchBook();
+    }, [bookID, API_BASE_URL]);
 
     const handleChange = (e) => {
-        setBook(prev=>({...prev, [e.target.name]: e.target.value }));
+        setBook(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
-   const handleClick = async e =>{
-    e.preventDefault()
-    try{
-        console.log("Base URL set to " + API_BASE_URL)
-        await axios.put(`${API_BASE_URL}/books/${bookID}`, book)
-        navigate("/")
-    }catch(err){
-        console.log(err)
+    const handleClick = async e => {
+        e.preventDefault()
+        setIsSubmitting(true)
+        try {
+            console.log("Base URL set to " + API_BASE_URL)
+            await axios.put(`${API_BASE_URL}/books/${bookID}`, book)
+            navigate("/")
+        } catch (err) {
+            console.log(err)
+            setIsSubmitting(false)
+        }
     }
-   }
-console.log(book)
-  return (
-    <div className='form'>
-   <h1>Update Book</h1>
-   <input type="text" placeholder="title" onChange={handleChange} name="title"/>
-   <input type="text" placeholder="description" onChange={handleChange} name="description"/>
-   <input type="number" placeholder="price" onChange={handleChange} name="price"/>
-   <input type="text" placeholder="cover" onChange={handleChange} name="cover"/>
-   <button onClick={handleClick} className='updateButton'>
-   Update
-   </button>
-    </div>
-  )
+
+    if (loading) {
+        return (
+            <div className="loader">
+                <div className="loader-circle"></div>
+            </div>
+        )
+    }
+
+    return (
+        <div className="App">
+            <form className='form'>
+                <h1>Update Book</h1>
+
+                <div className="form-field">
+                    <label className="form-label">Title</label>
+                    <input
+                        type="text"
+                        placeholder="Enter book title"
+                        onChange={handleChange}
+                        name="title"
+                        value={book.title}
+                    />
+                </div>
+
+                <div className="form-field">
+                    <label className="form-label">Description</label>
+                    <input
+                        type="text"
+                        placeholder="Enter book description"
+                        onChange={handleChange}
+                        name="description"
+                        value={book.description}
+                    />
+                </div>
+
+                <div className="form-field">
+                    <label className="form-label">Price</label>
+                    <input
+                        type="number"
+                        placeholder="Enter book price"
+                        onChange={handleChange}
+                        name="price"
+                        value={book.price}
+                    />
+                </div>
+
+                <div className="form-field">
+                    <label className="form-label">Cover Image URL</label>
+                    <input
+                        type="text"
+                        placeholder="Enter cover image URL"
+                        onChange={handleChange}
+                        name="cover"
+                        value={book.cover}
+                    />
+                </div>
+
+                <button
+                    onClick={handleClick}
+                    className='btn update-form-btn'
+                    disabled={isSubmitting}
+                >
+                    {isSubmitting ? 'Updating...' : 'Update Book'}
+                </button>
+            </form>
+        </div>
+    )
 }
 
 export default Update
-
