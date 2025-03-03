@@ -5,11 +5,11 @@ import cors from "cors"
 const app = express();
 
 const db = mysql.createConnection({
-    host: process.env.DATABASE_HOST || "database",
+    host: process.env.DATABASE_HOST || "db",
     port: process.env.DATABASE_PORT || 3306,
-    user: process.env.DATABASE_USER || "user",
-    password: process.env.DATABASE_PASSWORD || "password",
-    database: process.env.DATABASE_NAME || "db"
+    user: process.env.DATABASE_USER || "devops",
+    password: process.env.DATABASE_PASSWORD || "test1234",
+    database: process.env.DATABASE_NAME || "test"
 })
 
 db.connect((err) => {
