@@ -66,13 +66,13 @@ const Update = () => {
     return (
         <div className="App">
             <form className='form'>
-                <h1>Update Book</h1>
+                <h1>Update NFT Listing</h1>
 
                 <div className="form-field">
                     <label className="form-label">Title</label>
                     <input
                         type="text"
-                        placeholder="Enter book title"
+                        placeholder="Enter NFT title"
                         onChange={handleChange}
                         name="title"
                         value={book.title}
@@ -83,7 +83,7 @@ const Update = () => {
                     <label className="form-label">Description</label>
                     <input
                         type="text"
-                        placeholder="Enter book description"
+                        placeholder="Enter description"
                         onChange={handleChange}
                         name="description"
                         value={book.description}
@@ -94,7 +94,7 @@ const Update = () => {
                     <label className="form-label">Price</label>
                     <input
                         type="number"
-                        placeholder="Enter book price"
+                        placeholder="Enter price"
                         onChange={handleChange}
                         name="price"
                         value={book.price}
@@ -117,7 +117,7 @@ const Update = () => {
                     className='btn update-form-btn'
                     disabled={isSubmitting}
                 >
-                    {isSubmitting ? 'Updating...' : 'Update Book'}
+                    {isSubmitting ? 'Updating...' : 'Update NFT'}
                 </button>
             </form>
         </div>

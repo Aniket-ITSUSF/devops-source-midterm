@@ -46,7 +46,7 @@ const Books = () => {
 
             {books.length === 0 ? (
                 <div className="empty-state">
-                    <p>No books available. Add your first book to get started!</p>
+                    <p>No NFT's available. Add your first NFT to get started!</p>
                 </div>
             ) : (
                 <div className="books">
@@ -79,7 +79,7 @@ const Books = () => {
                     <line x1="12" y1="5" x2="12" y2="19"></line>
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
-                <Link to="/add">Add new Book</Link>
+                <Link to="/add">Add new NFT</Link>
             </button>
         </div>
     )
